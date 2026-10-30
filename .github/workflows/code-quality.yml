@@ -12,7 +12,7 @@ concurrency:
 jobs:
   file-quality:
     name: File Quality
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     
     steps:
@@ -69,7 +69,7 @@ jobs:
 
   security-scan:
     name: Security Scan
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     
     steps:
@@ -126,7 +126,7 @@ jobs:
 
   python-backend:
     name: Backend Quality
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     
     steps:
@@ -208,7 +208,7 @@ jobs:
 
   typescript-frontend:
     name: Frontend Quality
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     
     steps:
@@ -290,7 +290,7 @@ jobs:
 
   quality-gate:
     name: Quality Gate
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     needs: [file-quality, security-scan, python-backend, typescript-frontend]
     if: always()
     
