@@ -28,7 +28,7 @@ permissions:
 
 jobs:
   compute_version:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/tags/beta-v')
     outputs:
       new_tag: ${{ steps.tag_version.outputs.next_version }}
@@ -222,7 +222,7 @@ jobs:
   # Release gate: require both arches for every variant, else block publishing.
   # Release-only; skipped on dev so the tolerant create_manifest path is kept.
   verify_digests:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     needs: [compute_version, build]
     if: ${{ always() && needs.compute_version.result == 'success' && needs.compute_version.outputs.new_tag != '' }}
     steps:
@@ -252,7 +252,7 @@ jobs:
           [ "$fail" -eq 0 ] || exit 1
 
   create_manifest:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     needs: [compute_version, build, verify_digests]
     if: ${{ !cancelled() && needs.verify_digests.result != 'failure' }}
     permissions:
@@ -366,7 +366,7 @@ jobs:
 
   # Push the git tag only after build, gate, and manifest publish all succeed.
   finalize_release:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     needs: [compute_version, create_manifest]
     if: ${{ success() && needs.compute_version.outputs.new_tag != '' && needs.compute_version.outputs.is_release_tag != 'true' }}
     permissions:
