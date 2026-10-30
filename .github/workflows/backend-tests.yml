@@ -15,7 +15,7 @@ concurrency:
 jobs:
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     env:
       EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
@@ -58,7 +58,7 @@ jobs:
 
   integration-tests:
     name: Integration Tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     if: github.event.pull_request.draft == false
     env:
       EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
@@ -120,7 +120,7 @@ jobs:
 
   test-gate:
     name: Test Gate
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, pips-lxc]
     needs: [unit-tests, integration-tests]
     if: always()
 
